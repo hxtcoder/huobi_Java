@@ -29,12 +29,13 @@ public class LoanOrderRequest {
    * @param size The number of orders to return. (optional, can be null).
    */
   public LoanOrderRequest(String symbol, Date startDate, Date endDate,
-      LoanOrderStates states, Long fromId, Long size) {
+      LoanOrderStates states, Long fromId, String direct, Long size) {
     this.symbol = symbol;
     this.startDate = startDate;
     this.endDate = endDate;
     this.states = states;
     this.fromId = fromId;
+    this.direct = direct;
     this.size = size;
   }
 
@@ -47,6 +48,8 @@ public class LoanOrderRequest {
   private LoanOrderStates states = null;
 
   private Long fromId = null;
+
+  private String direct = null;
 
   private Long size = null;
 
@@ -68,6 +71,10 @@ public class LoanOrderRequest {
 
   public Long getFromId() {
     return fromId;
+  }
+
+  public String getDirect() {
+    return direct;
   }
 
   public Long getSize() {

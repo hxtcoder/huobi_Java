@@ -121,6 +121,7 @@ public class TestGetLoanHistory {
           sdf.parse("2019-02-03"),
           LoanOrderStates.CREATED,
           23456L,
+          "prev",
           123L);
     } catch (Exception e) {
       fail("data format error");

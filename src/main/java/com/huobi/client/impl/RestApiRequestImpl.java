@@ -476,7 +476,8 @@ class RestApiRequestImpl {
         .putToUrl("end-date", loanOrderRequest.getEndDate(), "yyyy-MM-dd")
         .putToUrl("states", loanOrderRequest.getStates())
         .putToUrl("from", loanOrderRequest.getFromId())
-        .putToUrl("size", loanOrderRequest.getSize());
+        .putToUrl("size", loanOrderRequest.getSize())
+        .putToUrl("direct", loanOrderRequest.getDirect());
     request.request = createRequestByGetWithSignature("/v1/margin/loan-orders", builder);
     request.jsonParser = (jsonWrapper -> {
       List<Loan> loans = new LinkedList<>();
