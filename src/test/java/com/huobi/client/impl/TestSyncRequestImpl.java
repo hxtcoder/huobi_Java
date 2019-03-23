@@ -5,13 +5,7 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.same;
 import static org.mockito.Mockito.when;
 
-import com.huobi.client.model.BestQuote;
-import com.huobi.client.model.Candlestick;
-import com.huobi.client.model.LastTradeAndBestQuote;
-import com.huobi.client.model.PriceDepth;
-import com.huobi.client.model.Symbol;
-import com.huobi.client.model.Trade;
-import com.huobi.client.model.TradeStatistics;
+import com.huobi.client.model.*;
 import com.huobi.client.model.enums.CandlestickInterval;
 import com.huobi.client.model.request.CandlestickRequest;
 import java.math.BigDecimal;

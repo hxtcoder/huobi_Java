@@ -6,52 +6,15 @@ import com.huobi.client.impl.utils.JsonWrapper;
 import com.huobi.client.impl.utils.JsonWrapperArray;
 import com.huobi.client.impl.utils.TimeService;
 import com.huobi.client.impl.utils.UrlParamsBuilder;
-import com.huobi.client.model.Account;
-import com.huobi.client.model.Balance;
-import com.huobi.client.model.BatchCancelResult;
-import com.huobi.client.model.BestQuote;
-import com.huobi.client.model.Candlestick;
-import com.huobi.client.model.CompleteSubAccountInfo;
-import com.huobi.client.model.Deposit;
-import com.huobi.client.model.DepthEntry;
-import com.huobi.client.model.EtfSwapConfig;
-import com.huobi.client.model.EtfSwapHistory;
-import com.huobi.client.model.Loan;
-import com.huobi.client.model.MatchResult;
-import com.huobi.client.model.Order;
-import com.huobi.client.model.PriceDepth;
-import com.huobi.client.model.Symbol;
-import com.huobi.client.model.Trade;
-import com.huobi.client.model.TradeStatistics;
-import com.huobi.client.model.UnitPrice;
-import com.huobi.client.model.Withdraw;
-import com.huobi.client.model.enums.AccountState;
-import com.huobi.client.model.enums.AccountType;
-import com.huobi.client.model.enums.BalanceType;
-import com.huobi.client.model.enums.CandlestickInterval;
-import com.huobi.client.model.enums.DepositState;
-import com.huobi.client.model.enums.EtfStatus;
-import com.huobi.client.model.enums.LoanOrderStates;
-import com.huobi.client.model.enums.OrderSource;
-import com.huobi.client.model.enums.OrderState;
-import com.huobi.client.model.enums.OrderType;
-import com.huobi.client.model.enums.TradeDirection;
-import com.huobi.client.model.enums.WithdrawState;
-import com.huobi.client.model.request.CancelOpenOrderRequest;
-import com.huobi.client.model.enums.EtfSwapType;
-import com.huobi.client.model.request.HistoricalOrdersRequest;
-import com.huobi.client.model.request.LoanOrderRequest;
-import com.huobi.client.model.request.MatchResultRequest;
-import com.huobi.client.model.request.NewOrderRequest;
-import com.huobi.client.model.request.OpenOrderRequest;
-import com.huobi.client.model.request.TransferMasterRequest;
-import com.huobi.client.model.request.TransferRequest;
-import com.huobi.client.model.request.WithdrawRequest;
+import com.huobi.client.model.*;
+import com.huobi.client.model.enums.*;
+import com.huobi.client.model.request.*;
+import okhttp3.Request;
+
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import okhttp3.Request;
 
 class RestApiRequestImpl {
 
@@ -1042,6 +1005,38 @@ class RestApiRequestImpl {
         etfSwapHistoryList.add(etfSwapHistory);
       });
       return etfSwapHistoryList;
+    });
+    return request;
+  }
+
+  @SuppressWarnings("all")
+  public RestApiRequest<MarginAccountDetail> getMarginAccountInfo(String symbol) {
+    InputChecker.checker().shouldNotNull(symbol,symbol);
+    RestApiRequest<MarginAccountDetail> request = new RestApiRequest<>();
+    UrlParamsBuilder builder = UrlParamsBuilder.build()
+            .putToUrl("symbol",symbol);
+    request.request = createRequestByGetWithSignature("/v1/margin/accounts/balance", builder);
+
+    request.jsonParser = (jsonWrapper -> {
+      MarginAccountDetail marginAccountDetail = new MarginAccountDetail();
+      List<SubAccountInfo> subAccountInfoList = new LinkedList<>();
+      JsonWrapperArray data = jsonWrapper.getJsonArray("data");
+      data.forEach((dataItem) -> {
+        marginAccountDetail.setSymbol(dataItem.getString("symbol"));
+        marginAccountDetail.setState(dataItem.getString("state"));
+        marginAccountDetail.setRiskRate(dataItem.getString("risk-rate"));
+        marginAccountDetail.setFlPrice(dataItem.getString("fl-price"));
+        JsonWrapperArray list = dataItem.getJsonArray("list");
+        list.forEach(item -> {
+          SubAccountInfo subAccountInfo = new SubAccountInfo();
+          subAccountInfo.setCurrency(item.getString("currency"));
+          subAccountInfo.setType(item.getString("type"));
+          subAccountInfo.setBalance(item.getString("balance"));
+          subAccountInfoList.add(subAccountInfo);
+        });
+        marginAccountDetail.setList(subAccountInfoList);
+      });
+      return marginAccountDetail;
     });
     return request;
   }

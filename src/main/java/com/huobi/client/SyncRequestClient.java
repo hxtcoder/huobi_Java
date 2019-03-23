@@ -1,25 +1,8 @@
 package com.huobi.client;
 
 import com.huobi.client.impl.HuobiApiInternalFactory;
-import com.huobi.client.model.Account;
-import com.huobi.client.model.Balance;
-import com.huobi.client.model.BatchCancelResult;
-import com.huobi.client.model.BestQuote;
-import com.huobi.client.model.Candlestick;
-import com.huobi.client.model.CompleteSubAccountInfo;
-import com.huobi.client.model.Deposit;
-import com.huobi.client.model.EtfSwapConfig;
-import com.huobi.client.model.EtfSwapHistory;
-import com.huobi.client.model.ExchangeInfo;
-import com.huobi.client.model.LastTradeAndBestQuote;
-import com.huobi.client.model.Loan;
-import com.huobi.client.model.MatchResult;
-import com.huobi.client.model.Order;
-import com.huobi.client.model.PriceDepth;
+import com.huobi.client.model.*;
 
-import com.huobi.client.model.Trade;
-import com.huobi.client.model.TradeStatistics;
-import com.huobi.client.model.Withdraw;
 import com.huobi.client.model.enums.AccountType;
 import com.huobi.client.model.enums.CandlestickInterval;
 import com.huobi.client.model.request.CancelOpenOrderRequest;
@@ -46,6 +29,14 @@ import java.util.List;
  * be thrown.
  */
 public interface SyncRequestClient {
+
+  /**
+   * Get the loan account details
+   *
+   * @param symbol The symbol, like "btcusdt", To query account details.
+   * @return The account details, see{@link MarginAccountDetail}
+   */
+  MarginAccountDetail getMarginAccountInfo(String symbol);
 
   /**
    * Get the latest candlestick/kline for the specified symbol.
