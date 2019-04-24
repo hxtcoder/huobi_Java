@@ -1,6 +1,8 @@
 package com.huobi.client.examples;
 
+import com.alibaba.fastjson.JSON;
 import com.huobi.client.SyncRequestClient;
+import com.huobi.client.model.Account;
 import com.huobi.client.model.Loan;
 import com.huobi.client.model.MarginAccountDetail;
 import com.huobi.client.model.request.LoanOrderRequest;
@@ -16,7 +18,7 @@ public class MarginAccountDetailTest {
     @Before
     public void setUp() {
          syncRequestClient = SyncRequestClient.create(
-                "xxxxxx", "xxxxxx");
+                "###", "###");
     }
 
     @Test
@@ -31,5 +33,11 @@ public class MarginAccountDetailTest {
                 2000680L, "next",null);
         List<Loan> loanHistory = syncRequestClient.getLoanHistory(req);
         System.out.println(loanHistory);
+    }
+
+    @Test
+    public void testAccountId() {
+        List<Account> accountBalance = syncRequestClient.getAccountBalance();
+        System.out.println(JSON.toJSONString(accountBalance));
     }
 }

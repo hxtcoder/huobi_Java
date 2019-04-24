@@ -28,7 +28,7 @@ public class TestGetAccount {
 
   @Before
   public void Initialize() {
-    impl = new RestApiRequestImpl("12345", "67890", new RequestOptions());
+    impl = new RestApiRequestImpl("###", "###", new RequestOptions());
   }
 
   @Test
@@ -37,6 +37,11 @@ public class TestGetAccount {
     assertTrue(restApiRequest.request.url().toString().contains("/v1/account/accounts"));
     assertEquals("GET", restApiRequest.request.method());
     assertNotNull(restApiRequest.request.url().queryParameter("Signature"));
+  }
+
+  @Test
+  public void test2() {
+
   }
 
 
